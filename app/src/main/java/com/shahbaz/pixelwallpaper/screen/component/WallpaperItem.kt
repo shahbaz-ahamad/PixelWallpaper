@@ -1,6 +1,7 @@
 package com.shahbaz.pixelwallpaper.screen.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +19,7 @@ import coil.compose.AsyncImage
 @Composable
 fun WallpaperItem(
     modifier: Modifier = Modifier,
-    imageUrl: String
+    imageUrl: String,
 ) {
 
     var showShimmer by remember { mutableStateOf(true) }
@@ -38,5 +39,7 @@ fun WallpaperItem(
             .clip(RoundedCornerShape(10.dp))
             .height(200.dp)
             .fillMaxWidth()
+            .clickable {
+            }
     )
 }

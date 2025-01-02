@@ -23,7 +23,7 @@ fun HomeScreen(
     wallpaperViewmodel: WallpaperViewmodel = hiltViewModel()
 ) {
 
-    //val wallpaper = wallpaperViewmodel.getWallpaper.collectAsLazyPagingItems()
+    val wallpaper = wallpaperViewmodel.getWallpaper.collectAsLazyPagingItems()
 
     BackHandler { onBackPress() }
 
@@ -38,20 +38,20 @@ fun HomeScreen(
 
     ) {
 
-//        if (wallpaper.loadState.refresh == LoadState.Loading) {
-//            items(20) {
-//                LoadingPlaceHolder()
-//            }
-//        }
-//
-//        items(wallpaper.itemCount, key = { "${wallpaper[it]?.id}_$it" }) { index ->
-//            val wallpaperItem = wallpaper[index]
-//            if (wallpaperItem != null) {
-//                WallpaperItem(
-//                    imageUrl = wallpaperItem.src.portrait
-//                )
-//            }
-//        }
+        if (wallpaper.loadState.refresh == LoadState.Loading) {
+            items(20) {
+                LoadingPlaceHolder()
+            }
+        }
+
+        items(wallpaper.itemCount, key = { "${wallpaper[it]?.id}_$it" }) { index ->
+            val wallpaperItem = wallpaper[index]
+            if (wallpaperItem != null) {
+                WallpaperItem(
+                    imageUrl = wallpaperItem.src.portrait
+                )
+            }
+        }
     }
 
 }

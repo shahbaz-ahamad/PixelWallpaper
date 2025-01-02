@@ -1,5 +1,6 @@
 package com.shahbaz.pixelwallpaper
 
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -30,8 +32,8 @@ import kotlin.system.exitProcess
 @Composable
 fun PixelWallpaperApp(modifier: Modifier = Modifier) {
 
+    val context = LocalContext.current
     val navController = rememberNavController()
-
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
     var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
 
@@ -92,6 +94,9 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                     Category(
                         onBackPress = {
                             navController.navigate(Routs.Home)
+                        },
+                        onCategoryClick = { categoryName ->
+                            Toast.makeText(context,categoryName,Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
