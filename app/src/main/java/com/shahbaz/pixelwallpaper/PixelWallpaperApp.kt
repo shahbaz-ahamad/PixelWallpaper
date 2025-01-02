@@ -13,10 +13,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.shahbaz.pixelwallpaper.routs.Routs
 import com.shahbaz.pixelwallpaper.screen.category.Category
 import com.shahbaz.pixelwallpaper.screen.component.BottomNavigationBar
@@ -24,6 +26,7 @@ import com.shahbaz.pixelwallpaper.screen.component.ManageBarVisibility
 import com.shahbaz.pixelwallpaper.screen.component.Topbar
 import com.shahbaz.pixelwallpaper.screen.favourite.Favourite
 import com.shahbaz.pixelwallpaper.screen.homescreen.HomeScreen
+import com.shahbaz.pixelwallpaper.screen.homescreen.WallpaperViewmodel
 import com.shahbaz.pixelwallpaper.screen.setting.Setting
 import com.shahbaz.pixelwallpaper.screen.splashscreen.SplashScreen
 import kotlin.system.exitProcess
@@ -33,9 +36,13 @@ import kotlin.system.exitProcess
 fun PixelWallpaperApp(modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
+    val wallpaperViewmodel: WallpaperViewmodel = hiltViewModel()
+    val wallpaper = wallpaperViewmodel.getWallpaper.collectAsLazyPagingItems()
+
     val navController = rememberNavController()
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
     var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
+
 
     val stackEntry by navController.currentBackStackEntryAsState()
 
@@ -86,7 +93,8 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                     HomeScreen(
                         onBackPress = {
                             exitProcess(0)
-                        }
+                        },
+                        wallpaper = wallpaper
                     )
                 }
 
@@ -96,7 +104,7 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                             navController.navigate(Routs.Home)
                         },
                         onCategoryClick = { categoryName ->
-                            Toast.makeText(context,categoryName,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, categoryName, Toast.LENGTH_SHORT).show()
                         }
                     )
                 }

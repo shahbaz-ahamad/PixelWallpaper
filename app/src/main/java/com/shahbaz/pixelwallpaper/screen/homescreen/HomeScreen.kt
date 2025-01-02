@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.shahbaz.pixelwallpaper.model.Photo
 import com.shahbaz.pixelwallpaper.screen.component.LoadingPlaceHolder
 import com.shahbaz.pixelwallpaper.screen.component.WallpaperItem
 
@@ -20,10 +22,9 @@ import com.shahbaz.pixelwallpaper.screen.component.WallpaperItem
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onBackPress: () -> Unit,
-    wallpaperViewmodel: WallpaperViewmodel = hiltViewModel()
+    wallpaper: LazyPagingItems<Photo>
 ) {
 
-    val wallpaper = wallpaperViewmodel.getWallpaper.collectAsLazyPagingItems()
 
     BackHandler { onBackPress() }
 
