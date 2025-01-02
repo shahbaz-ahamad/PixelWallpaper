@@ -1,15 +1,14 @@
 package com.shahbaz.pixelwallpaper.screen.component
 
-import android.view.WindowInsets
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import com.shahbaz.pixelwallpaper.routs.Routs
 
 @Composable
 fun ManageBarVisibility(
     currentEntry: () -> NavBackStackEntry?,
-    showTopBar: (Boolean) -> Unit
+    showTopBar: (Boolean) -> Unit,
+    showBottomBar: (Boolean) -> Unit
 ) {
 
     currentEntry()?.let { entry ->
@@ -18,13 +17,16 @@ fun ManageBarVisibility(
         when (route) {
 
             in arrayOf(
-                Routs.Splash::class.qualifiedName
+                Routs.Splash::class.qualifiedName,
+                Routs.Search::class.qualifiedName
             ) -> {
                 showTopBar(false)
+                showBottomBar(false)
             }
 
             else -> {
                 showTopBar(true)
+                showBottomBar(true)
             }
         }
 

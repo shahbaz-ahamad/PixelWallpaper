@@ -16,9 +16,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.shahbaz.pixelwallpaper.routs.Routs
+import com.shahbaz.pixelwallpaper.screen.category.Category
+import com.shahbaz.pixelwallpaper.screen.component.BottomNavigationBar
 import com.shahbaz.pixelwallpaper.screen.component.ManageBarVisibility
 import com.shahbaz.pixelwallpaper.screen.component.Topbar
+import com.shahbaz.pixelwallpaper.screen.favourite.Favourite
 import com.shahbaz.pixelwallpaper.screen.homescreen.HomeScreen
+import com.shahbaz.pixelwallpaper.screen.setting.Setting
 import com.shahbaz.pixelwallpaper.screen.splashscreen.SplashScreen
 import kotlin.system.exitProcess
 
@@ -29,11 +33,14 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
+    var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
+
     val stackEntry by navController.currentBackStackEntryAsState()
 
     ManageBarVisibility(
         currentEntry = { stackEntry },
-        showTopBar = { canShowTopBar = it }
+        showTopBar = { canShowTopBar = it },
+        showBottomBar = { canShowBottomBar = it }
     )
 
 
@@ -47,6 +54,12 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                 Topbar(
                     title = title,
                 )
+            }
+        },
+
+        bottomBar = {
+            if (canShowBottomBar) {
+                BottomNavigationBar(navController = navController)
             }
         }
     ) { paddingValue ->
@@ -71,6 +84,30 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                     HomeScreen(
                         onBackPress = {
                             exitProcess(0)
+                        }
+                    )
+                }
+
+                composable<Routs.Category> {
+                    Category(
+                        onBackPress = {
+                            navController.navigate(Routs.Home)
+                        }
+                    )
+                }
+
+                composable<Routs.Favourite> {
+                    Favourite(
+                        onBackPress = {
+                            navController.navigate(Routs.Home)
+                        }
+                    )
+                }
+
+                composable<Routs.Setting> {
+                    Setting(
+                        onBackPress = {
+                            navController.navigate(Routs.Home)
                         }
                     )
                 }
