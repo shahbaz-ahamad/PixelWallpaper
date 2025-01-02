@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 sealed interface Routs {
 
     @Serializable
-    data object SplashScreen : Routs
+    data object Splash : Routs
 
     @Serializable
-    data object HomeScreen : Routs
+    data object Home : Routs
 }
