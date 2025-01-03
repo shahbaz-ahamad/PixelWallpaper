@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -18,9 +19,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.shahbaz.pixelwallpaper.routs.Routs
 import com.shahbaz.pixelwallpaper.screen.category.Category
+import com.shahbaz.pixelwallpaper.screen.category.CategoryDetailScreen
 import com.shahbaz.pixelwallpaper.screen.component.BottomNavigationBar
 import com.shahbaz.pixelwallpaper.screen.component.ManageBarVisibility
 import com.shahbaz.pixelwallpaper.screen.component.Topbar
@@ -45,6 +48,13 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
 
 
     val stackEntry by navController.currentBackStackEntryAsState()
+
+
+    var category by remember {
+        mutableStateOf("")
+    }
+
+    var categoryWiseList = wallpaperViewmodel.searchWallpaper(category).collectAsLazyPagingItems()
 
     ManageBarVisibility(
         currentEntry = { stackEntry },
@@ -104,7 +114,7 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                             navController.navigate(Routs.Home)
                         },
                         onCategoryClick = { categoryName ->
-                            Toast.makeText(context, categoryName, Toast.LENGTH_SHORT).show()
+                            navController.navigate(Routs.CategoryDetail(categoryName))
                         }
                     )
                 }
@@ -121,6 +131,19 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                     Setting(
                         onBackPress = {
                             navController.navigate(Routs.Home)
+                        }
+                    )
+                }
+
+                composable<Routs.CategoryDetail> { backStackEntry ->
+                    val categoryDetail: Routs.CategoryDetail = backStackEntry.toRoute()
+                    category = categoryDetail.categoryName
+
+                    CategoryDetailScreen(
+                        category = category,
+                        wallpaperList = categoryWiseList,
+                        onBackPress = {
+                            navController.navigateUp()
                         }
                     )
                 }

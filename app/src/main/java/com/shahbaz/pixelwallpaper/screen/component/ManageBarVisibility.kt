@@ -18,7 +18,8 @@ fun ManageBarVisibility(
 
             in arrayOf(
                 Routs.Splash::class.qualifiedName,
-                Routs.Search::class.qualifiedName
+                Routs.Search::class.qualifiedName,
+                Routs.CategoryDetail::class.qualifiedName
             ) -> {
                 showTopBar(false)
                 showBottomBar(false)

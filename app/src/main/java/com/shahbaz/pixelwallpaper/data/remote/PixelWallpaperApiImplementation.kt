@@ -17,7 +17,17 @@ class PixelWallpaperApiImplementation(
             parameter("page", page)
             parameter("per_page", Constant.PER_PAGE_ITEMS)
         }.body<WallpaperResponse>()
+        return response
+    }
 
+    override suspend fun searchWallpaper(query: String, page: Int): WallpaperResponse {
+        val response = client.get(
+            HttpRoutes.SEARCH_WALLPAPERS
+        ) {
+            parameter("query", query)
+            parameter("page", page)
+            parameter("per_page", Constant.PER_PAGE_ITEMS)
+        }.body<WallpaperResponse>()
         return response
     }
 }

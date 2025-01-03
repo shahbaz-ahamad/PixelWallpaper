@@ -14,4 +14,9 @@ class WallpaperViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val getWallpaper = repo.getPixelWallpaper().flow.cachedIn(viewModelScope)
+
+    fun searchWallpaper(query: String) =
+        repo.searchWallpaper(query)
+            .flow
+            .cachedIn(viewModelScope)
 }

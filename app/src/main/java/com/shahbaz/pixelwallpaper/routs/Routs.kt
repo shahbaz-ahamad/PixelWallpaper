@@ -22,4 +22,7 @@ sealed interface Routs {
 
     @Serializable
     data object Setting : Routs
+
+    @Serializable
+    data class CategoryDetail(val categoryName: String) : Routs
 }
