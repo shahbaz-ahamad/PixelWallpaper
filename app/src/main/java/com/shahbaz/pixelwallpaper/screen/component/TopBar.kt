@@ -1,5 +1,6 @@
 package com.shahbaz.pixelwallpaper.screen.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -16,7 +17,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Topbar(
-    title: String
+    title: String,
+    onSearchClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -32,6 +34,9 @@ fun Topbar(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
+                        .clickable {
+                            onSearchClick()
+                        }
                 )
             }
         }

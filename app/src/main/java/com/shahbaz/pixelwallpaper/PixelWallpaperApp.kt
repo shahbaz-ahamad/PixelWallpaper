@@ -1,6 +1,5 @@
 package com.shahbaz.pixelwallpaper
 
-import android.widget.Toast
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +28,7 @@ import com.shahbaz.pixelwallpaper.screen.component.Topbar
 import com.shahbaz.pixelwallpaper.screen.favourite.Favourite
 import com.shahbaz.pixelwallpaper.screen.homescreen.HomeScreen
 import com.shahbaz.pixelwallpaper.screen.homescreen.WallpaperViewmodel
+import com.shahbaz.pixelwallpaper.screen.search.SearchScreen
 import com.shahbaz.pixelwallpaper.screen.setting.Setting
 import com.shahbaz.pixelwallpaper.screen.splashscreen.SplashScreen
 import kotlin.system.exitProcess
@@ -38,7 +37,6 @@ import kotlin.system.exitProcess
 @Composable
 fun PixelWallpaperApp(modifier: Modifier = Modifier) {
 
-    val context = LocalContext.current
     val wallpaperViewmodel: WallpaperViewmodel = hiltViewModel()
     val wallpaper = wallpaperViewmodel.getWallpaper.collectAsLazyPagingItems()
 
@@ -72,6 +70,9 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                     stackEntry?.destination?.route?.substringAfterLast(".") ?: "Pixel Wallpaper"
                 Topbar(
                     title = title,
+                    onSearchClick = {
+                        navController.navigate(Routs.Search)
+                    }
                 )
             }
         },
@@ -115,6 +116,14 @@ fun PixelWallpaperApp(modifier: Modifier = Modifier) {
                         },
                         onCategoryClick = { categoryName ->
                             navController.navigate(Routs.CategoryDetail(categoryName))
+                        }
+                    )
+                }
+
+                composable<Routs.Search> {
+                    SearchScreen(
+                        onBackArrowPress = {
+                            navController.navigateUp()
                         }
                     )
                 }
